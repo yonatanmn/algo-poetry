@@ -15,91 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
   );
 
   chrome.runtime.onConnect.addListener(function (port) {
-    //port.postMessage({greeting:"hello"});
     port.onMessage.addListener(function (message, sender) {
-      //console.log(processPage);
       listOfSentences = processPage(message.textList);
-
-
-      //window.textList = textList;
-      //window.poem = poem;
-      //console.log(poem);
-
     });
   });
 
+  var buttonElement = document.getElementById('button');
+  buttonElement.addEventListener('click', handleCreatePoemClick);
 
-  //var port = chrome.runtime.connect({name:"popup-port"});
-
-  //port.onMessage.addListener(function(message,sender){
-  //  console.log(message);
-  //});
-
-
-  var divs = document.querySelectorAll('div');
-  for (var i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', click);
-  }
+  //var divs = document.querySelectorAll('div');
+  //for (var i = 0; i < divs.length; i++) {
+  //  divs[i].addEventListener('click', click);
+  //}
 });
 
-function click() {
+function handleCreatePoemClick() {
   console.log('click');
 
   var poem = createPoem(listOfSentences);
   console.log(poem);
-
+  var poemElement = document.getElementById('poem');
+  poemElement.innerText = poem;
 }
 
 
-function createPoem(list) {
 
-  function takeRandItemFromArray(arr) {
-    return arr[arr.length * Math.random() << 0]
-  }
-
-  function takeRandProp(obj) {
-    return takeRandItemFromArray(R.keys(obj));
-  }
-
-
-  var rhymes = R.range(0, 7);
-  for (var i = 0; i < rhymes.length; i++) {
-    var rhyme = takeRandProp(list);
-    while (R.contains(rhyme, rhymes)) {
-      rhyme = takeRandProp(list);
-    }
-    rhymes[i] = rhyme
-  }
-
-
-  function takePropByIndex(obj, i) {
-    return obj[R.nth(i)(R.keys(obj))]
-  }
-
-  function wordFromListByIndexAndRhyme(rhyme, i) {
-    return takePropByIndex(list[rhymes[rhyme]], i)[0].str
-  }
-
-  //a-b-a-b, c-d-c-d, e-f-e-f, g-g
-  //0-1-0-1, 2-3-2-3, 4-5-4-5, 6-6
-  var sonnet = [
-    wordFromListByIndexAndRhyme(0, 0),
-    wordFromListByIndexAndRhyme(1, 0),
-    wordFromListByIndexAndRhyme(0, 1),
-    wordFromListByIndexAndRhyme(1, 1),
-    wordFromListByIndexAndRhyme(2, 0),
-    wordFromListByIndexAndRhyme(3, 0),
-    wordFromListByIndexAndRhyme(2, 1),
-    wordFromListByIndexAndRhyme(3, 1),
-    wordFromListByIndexAndRhyme(4, 0),
-    wordFromListByIndexAndRhyme(5, 0),
-    wordFromListByIndexAndRhyme(4, 1),
-    wordFromListByIndexAndRhyme(5, 1),
-    wordFromListByIndexAndRhyme(6, 0),
-    wordFromListByIndexAndRhyme(6, 1)
-  ];
-
-  return sonnet.join("\n");
-
-}
 
