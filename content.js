@@ -11,6 +11,12 @@ port.onMessage.addListener(function(message,sender){
 
 var allNodes = document.querySelectorAll('*');
 var list = Array.prototype.slice.call(allNodes,0);
-var textList = list.map(function(a){return a.textContent});
+list = list.filter(function (e) {
+  return e.childNodes.length < 2;
+});
+var textList = list.map(function(a){
+  return a.innerText;
+  //return a.textContent;
+});
 
 port.postMessage({textList: textList});
