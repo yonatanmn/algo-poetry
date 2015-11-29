@@ -53,7 +53,9 @@ var processPage = function (textList) {
   var newLineAndTabRegex =new RegExp('(\r\n|\n|\r|\t)','gm');
   var replaceNewLineWithSpace = R.replace(newLineAndTabRegex, ' ');
 
-  var listRemoveNonLanguage = R.map( R.compose(R.trim, removeNonLanguage , replaceNewLineWithSpace));
+  var replaceVerticalBar = R.replace(/\|/g,' ');
+
+  var listRemoveNonLanguage = R.map( R.compose(R.trim, removeNonLanguage , replaceVerticalBar, replaceNewLineWithSpace));
 
   var createNicerList = R.compose(
       //emptyAndUnique,
